@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AbstractFactoryDemo
 {
-    class Rectangle
+    class Rectangle : Shape
     {
         public void draw()
         {
