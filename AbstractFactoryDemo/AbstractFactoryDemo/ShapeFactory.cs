@@ -16,14 +16,6 @@ namespace AbstractFactoryDemo
             {
                 return new Square();
             }
-            else if (shapeType.Equals("rounded square", StringComparison.OrdinalIgnoreCase))
-            {
-                return new RoundedSquare();
-            }
-            else if (shapeType.Equals("rounded rectangle", StringComparison.OrdinalIgnoreCase))
-            {
-                return new RoundedRectangle();
-            }
             else
             {
                 return null;
