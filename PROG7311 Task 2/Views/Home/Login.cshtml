@@ -1,0 +1,35 @@
+﻿@model PROG7311_Task_2.Models.User
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+<div>
+    @using (Html.BeginForm("Login", "Home"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div style="color:red;">@Html.ValidationSummary()</div>
+        <div class="row">
+
+            <div class="col-lg-12">@ViewBag.Message</div>
+        </div><br />
+
+        <div class="row">
+            <div class="col-lg-2">UserID</div>
+            <div class="col-lg-10">@Html.TextBoxFor(a => a.userId, new { @class = "form-control" })</div>
+        </div><br />
+        <div class="row">
+            <div class="col-lg-2">Password</div>
+            <div class="col-lg-10">@Html.TextBoxFor(a => a.password, new { @class = "form-control", type = "Password" })</div>
+        </div><br />
+        <input type="submit" value="Login" class="btn btn-primary" />
+        <div class="btn btn-default spanlink">@Html.ActionLink("Register", "Register", "Home", new { })</div>
+    }
+
+</div>
+
+
