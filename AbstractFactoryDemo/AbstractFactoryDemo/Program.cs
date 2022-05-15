@@ -6,7 +6,12 @@ namespace AbstractFactoryDemo
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+
+            AbstractFactory factory = new ShapeFactory();
+            Shape shape1 = new Rectangle();
+            shape1.draw();
+
+            Shape
         }
     }
 }
