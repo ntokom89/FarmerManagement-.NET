@@ -1,4 +1,4 @@
-﻿
+﻿@model PROG7311_Task_2.Models.RegisterModelView
 @{
     ViewBag.Title = "Register";
 }
@@ -6,38 +6,64 @@
 <h2>Register</h2>
 
 <div>
-    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Back To List</a>
+    <a href="@Url.Action("Login", "Home")" class="btn btn-secondary">Back To Login</a>
 </div>
 
-<div>
-    <form>
-        <div class="form-group">
-            <label for="UserIDInput">User ID</label>
-            <input type="text" class="form-control" id="UserIDInput" aria-describedby="emailHelp" placeholder="Enter email" name="UserIDInput">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-            <label for="EmailInput">Email</label>
-            <input type="text" class="form-control" id="EmailInput" aria-describedby="emailHelp" placeholder="Enter email" name="EmailInput">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-            <label for="Password">Password</label>
-            <input type="password" class="form-control" id="Password" placeholder="Password" name="PasswordRegister">
-        </div>
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Name" name="NameInput">
-        </div>
-        <div class="form-group">
-            <label for="Surname">Surname</label>
-            <input type="text" class="form-control" id="Surname" placeholder="Surname" name="SurnameInput">
-        </div>
-        <div class="form-group">
-            <label for="Surname">Surname</label>
-            <input type="text" class="form-control" id="Surname" placeholder="Surname" name="SurnameInput">
-        </div>
-    </form>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-
+<div class="form-horizontal">
+    <h4>Register View</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+     <div class="form-group">
+    @Html.LabelFor(model => model.user.userId, " User ID")
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.user.userId, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.user.userId, "", new { @class = "text-danger" })
+    </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.user.userEmail, "  Email")
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.user.userEmail, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.user.userEmail, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.user.password, "  Password")
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.user.password, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.user.password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.employee.EmployeeName, "  Name")
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.employee.EmployeeName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.employee.EmployeeName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.employee.EmployeeSurname, "  Surname")
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.employee.EmployeeSurname, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.employee.EmployeeSurname, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.employee.EmployeeID, "  Employee ID")
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.employee.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.employee.EmployeeID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </div>
 </div>
+    }

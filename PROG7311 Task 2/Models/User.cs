@@ -13,9 +13,9 @@ namespace PROG7311_Task_2.Models
 
         public string userEmail { get; set; }
 
-        public SecureString password { get; set; }
+        public string password { get; set; }
 
-        public User(string userId, string userType, string userEmail, SecureString password)
+        public User(string userId, string userType, string userEmail, string password)
         {
             this.userId = userId;
             this.userType = userType;

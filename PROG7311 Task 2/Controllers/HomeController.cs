@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using PROG7311_Task_2.Models;
@@ -12,6 +13,12 @@ namespace PROG7311_Task_2.Controllers
         public static bool bool1 = false;
 
         public static User user1 = new User();
+
+        public static Farmer farmer = new Farmer();
+
+        public static Employee employee1 = new Employee();
+
+
         public ActionResult Index()
         {
             return View();
@@ -40,13 +47,13 @@ namespace PROG7311_Task_2.Controllers
 
                     if(user1.userType == "Farmer")
                     {
-                        DALClass.selectFarmer(user1);
+                        farmer=DALClass.selectFarmer(user1);
                         return View("~/Views/Farmer/FarmerMainPage.cshtml");
                     }
                     else if(user1.userType == "Employee")
                     {
-                        DALClass.selectEmployee(user1);
-                        return View("~/Views/Farmer/EmployeeMainPage.cshtml");
+                        employee1= DALClass.selectEmployee(user1);
+                        return View("~/Views/Employee/EmployeeMainPage.cshtml");
                     }
                     else
                     {
@@ -75,20 +82,26 @@ namespace PROG7311_Task_2.Controllers
         }
         //A method to take the userObj and use it 
         [HttpPost]
-        public ActionResult Register(User userObj, Employee employeeObj)
+        public ActionResult Register(RegisterModelView vmodelViewRegister)
         {
+
             if (ModelState.IsValid)
             {
-
-                DALClass.RegisterEmployee(userObj.userId, userObj.password,userObj.userEmail,employeeObj.EmployeeID, employeeObj.EmployeeName,employeeObj.EmployeeSurname);
+                DALClass.RegisterEmployee(vmodelViewRegister.user.userId, vmodelViewRegister.user.password, vmodelViewRegister.user.userEmail, vmodelViewRegister.employee.EmployeeID, vmodelViewRegister.employee.EmployeeName, vmodelViewRegister.employee.EmployeeSurname);
                 bool1 = true;
                 return View("Login");
             }
             else
             {
+
                 ModelState.AddModelError("", "Invalid entry for Registration");
                 return View();
             }
+
+
+            // ModelState.AddModelError("", "Invalid entry for Registration");
+            // return View();
+
         }
     }
 }

@@ -11,11 +11,11 @@ namespace PROG7311_Task_2.Models
     public class DALClass
     {
 
-        public static string connectionS = "Data Source=DESKTOP-7F27R3N;Initial Catalog=Student_DB;Integrated Security=True";
+        public static string connectionS = "Data Source=DESKTOP-7F27R3N;Initial Catalog=FarmerManagement_DB;Integrated Security=True";
 
 
 
-        public static  void RegisterEmployee(string userID, SecureString password, string email, int employeeID, string firstName, string surname )
+        public static  void RegisterEmployee(string userID, string password, string email, int employeeID, string firstName, string surname )
         {
 
             using (SqlConnection con = new SqlConnection(connectionS)){
@@ -24,8 +24,8 @@ namespace PROG7311_Task_2.Models
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@UserID", userID);
-                cmd.Parameters.AddWithValue("@UserPassword", userID);
-                cmd.Parameters.AddWithValue("@EmailAddress", userID);
+                cmd.Parameters.AddWithValue("@UserPassword", password);
+                cmd.Parameters.AddWithValue("@EmailAddress", email);
                 cmd.Parameters.AddWithValue("@EmployeeID", employeeID);
                 cmd.Parameters.AddWithValue("@FirstName", firstName);
                 cmd.Parameters.AddWithValue("@Surname", surname);
@@ -38,7 +38,7 @@ namespace PROG7311_Task_2.Models
 
 
 
-        public static bool checkPassword(string userId, SecureString password)
+        public static bool checkPassword(string userId, string password)
         {
             bool bool1 = new Boolean();//Delcare a new Boolean variable bool1.
 
@@ -46,7 +46,7 @@ namespace PROG7311_Task_2.Models
             using (SqlConnection con = new SqlConnection(connectionS))
             {
                 bool1 = false;
-                SqlCommand sqlCmd = new SqlCommand("SELECT COUNT(*) FROM [dbo].[Users] WHERE UserId = @UserId AND Password = HASHBYTES('SHA2_512', @Password)", con);//The commmand sql that implements the query  that counts the row where the module code and number of credits match with the connection to the database.
+                SqlCommand sqlCmd = new SqlCommand("SELECT COUNT(*) FROM Users WHERE UserID = @UserId AND UserPassword = HASHBYTES('SHA2_512', @Password)", con);//The commmand sql that implements the query  that counts the row where the module code and number of credits match with the connection to the database.
                                                                                                                                                                              //sqlCmd.Parameters.AddWithValue("@Username", username) (Vamnu, 2015)(Gigoyan, 2015);
 
                 //sqlCmd parameters that will first add the attribute and the datatype of it in SQL Server. Then equate the value of that attribute to the value in this program.
@@ -129,7 +129,7 @@ namespace PROG7311_Task_2.Models
             }
         }
 
-        public void addFarmer(Employee employee, String userID, SecureString password, String email, int farmerID, String name, String surname, DateTime date)
+        public void addFarmer(Employee employee, String userID, string password, String email, int farmerID, String name, String surname, DateTime date)
         {
             using (SqlConnection con = new SqlConnection(connectionS))
             {
@@ -190,11 +190,13 @@ namespace PROG7311_Task_2.Models
 
             using (SqlConnection con = new SqlConnection(connectionS))
             {
-                string command = "SELECT FarmerId,UserID,FarmerName, FarmerSurname FROM Farmer";
+                string command = "SELECT DISTINCT p.ProductID,p.ProductName,p.ProductDescription,p.ProductType,p.ProductPrice, fp.DateAddedProduct FROM FarmerProduct fp JOIN Farmer f ON f.FarmerID = fp.FarmerID JOIN Product p ON" +
+                    "p.ProductID = fp.ProductID WHERE f.FarmerID = @FarmerID";
 
                 SqlCommand sqlCmd = new SqlCommand(command, con);//Sql command that will implement the query shown on top with the connection to the database (Vamnu, 2015).
 
-
+                sqlCmd.Parameters.Add("@FarmerID", SqlDbType.Int);
+                sqlCmd.Parameters["@FarmerID"].Value = farmerID;
                 //sqlCmd parameters that will first add the attribute and the datatype of it in SQL Server. Then equate the value of that attribute to the value in this program.
 
                 con.Open();//Open the connection
@@ -202,16 +204,18 @@ namespace PROG7311_Task_2.Models
                 //While the reader reads the output for each row.
                 while (reader.Read())
                 {
-                    Farmer farmer = new Farmer();//Create a new Module object
+                    Product product = new Product();//Create a new Module object
 
                     //retrieve the values for the attributes of the Module class
-                    farmer.FarmerID = Convert.ToInt32(reader["FarmerId"].ToString());
-                    farmer.UserID = reader["UserID"].ToString();
-                    farmer.FarmerName = reader["FarmerName"].ToString();
-                    farmer.FarmerSurname = reader["FarmerSurname"].ToString();
+                    product.ProductId = Convert.ToInt32(reader["ProductID"].ToString());
+                    product.ProductName = reader["ProductName"].ToString();
+                    product.ProductDescription = reader["ProductDescription"].ToString();
+                    product.ProductType = reader["ProductType"].ToString();
+                    product.ProductPrice = Convert.ToDouble(reader["ProductPrice"].ToString());
+                    product.DateAddedProduct = Convert.ToDateTime(reader["DateAddedProduct"].ToString());
 
-
-                    Farmer.farmerList.Add(farmer);//Add the Module to the ModulesList.
+                    Product.products.Add(product);
+                   //Add the Module to the ModulesList.
                 }
                 reader.Close();//close the reader
                 con.Close();//close connection
@@ -224,7 +228,7 @@ namespace PROG7311_Task_2.Models
             using (SqlConnection con = new SqlConnection(connectionS))
             {
 
-                SqlCommand sqlCmd = new SqlCommand("SELECT UserID, UserType, EmailAddress FROM Students WHERE UserID = @UserID", con);
+                SqlCommand sqlCmd = new SqlCommand("SELECT UserID, UserType, EmailAddress FROM Users WHERE UserID = @UserID", con);
                 //SqlCommand sqlCmd2 = new SqlCommand("SELECT StudentNum, FirstName, Surname FROM Students WHERE Username = @Username", con);//The sql Command that will execute the query that will get the student details with the connection to the database.
 
                 //sqlCmd parameters that will first add the attribute and the datatype of it in SQL Server. Then equate the value of that attribute to the value in this program.
@@ -267,7 +271,7 @@ namespace PROG7311_Task_2.Models
                     //Retrieve the values for Student Number, first name, surname
                     // userObj.Use = Convert.ToInt32(reader["StudentNum"].ToString());
                     employee.UserID = reader["UserID"].ToString();
-                    employee.EmployeeID = Convert.ToInt32(reader["EmailAddress"].ToString());
+                    employee.EmployeeID = Convert.ToInt32(reader["EmployeeID"].ToString());
                     employee.EmployeeName = reader["EmployeeName"].ToString();
                     employee.EmployeeSurname = reader["EmployeeSurname"].ToString();
                 }
@@ -284,7 +288,7 @@ namespace PROG7311_Task_2.Models
             using (SqlConnection con = new SqlConnection(connectionS))
             {
 
-                SqlCommand sqlCmd = new SqlCommand("SELECT UserID, FarmerID, FarmerName, FarmerSurname FROM Students WHERE UserID = @UserID", con);
+                SqlCommand sqlCmd = new SqlCommand("SELECT UserID, FarmerID, FarmerName, FarmerSurname FROM Farmer WHERE UserID = @UserID", con);
                 //SqlCommand sqlCmd2 = new SqlCommand("SELECT StudentNum, FirstName, Surname FROM Students WHERE Username = @Username", con);//The sql Command that will execute the query that will get the student details with the connection to the database.
 
                 //sqlCmd parameters that will first add the attribute and the datatype of it in SQL Server. Then equate the value of that attribute to the value in this program.

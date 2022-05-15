@@ -17,6 +17,8 @@ namespace PROG7311_Task_2.Models
 
         private Double productPrice;
 
+        private DateTime dateAddedProduct;
+
         public static List<Product> products = new List<Product>();
         public Product()
         {
@@ -40,6 +42,8 @@ namespace PROG7311_Task_2.Models
         public string ProductType { get; set; }
 
         public double ProductPrice { get; set; }
+
+        public DateTime DateAddedProduct { get; set; }
 
 
 
