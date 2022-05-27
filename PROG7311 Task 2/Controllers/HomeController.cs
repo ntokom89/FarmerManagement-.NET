@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using PROG7311_Task_2.Models;
@@ -27,6 +28,15 @@ namespace PROG7311_Task_2.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+            if ((Product.products != null) && (!Product.products.Any()))
+            {
+                DALClass.displayProducts();
+            }
+            else
+            {
+                Product.products.Clear();
+                DALClass.displayProducts();
+            }
             if (bool1 == true)
             {
                 //this.AddNotification("Registration Successful", NotificationType.SUCCESS);
@@ -47,12 +57,16 @@ namespace PROG7311_Task_2.Controllers
 
                     if(user1.userType == "Farmer")
                     {
+                        
                         farmer=DALClass.selectFarmer(user1);
                         return View("~/Views/Farmer/FarmerMainPage.cshtml");
                     }
                     else if(user1.userType == "Employee")
                     {
                         employee1= DALClass.selectEmployee(user1);
+                        ThreadStart Startthread = new ThreadStart(callThread);
+                        Thread thread = new Thread(callThread);
+                        thread.Start();
                         return View("~/Views/Employee/EmployeeMainPage.cshtml");
                     }
                     else
@@ -102,6 +116,26 @@ namespace PROG7311_Task_2.Controllers
             // ModelState.AddModelError("", "Invalid entry for Registration");
             // return View();
 
+        }
+
+        public void callThread()
+        {
+            try
+            {
+                if ((Product.products != null) && (!Product.products.Any()))
+                {
+                    DALClass.displayProducts();
+                }
+                else
+                {
+                    Product.products.Clear();
+                    DALClass.displayProducts();
+                }
+            }
+            catch(ThreadAbortException e)
+            {
+
+            }
         }
     }
 }

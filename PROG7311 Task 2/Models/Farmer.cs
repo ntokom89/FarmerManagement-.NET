@@ -15,6 +15,7 @@ namespace PROG7311_Task_2.Models
 
         private String farmerSurname;
 
+
         public static List<Farmer> farmerList = new List<Farmer>();
 
         public Farmer(int farmerID, string userID, string farmerName, string farmerSurname)

@@ -97,7 +97,7 @@ namespace PROG7311_Task_2.Models
                     product.ProductName = reader["ProductName"].ToString();
                     product.ProductDescription = reader["ProductDescription"].ToString();
                     product.ProductType = reader["ProductType"].ToString();
-                    product.ProductPrice = Convert.ToDouble(reader["ProductPrice"].ToString());
+                    product.ProductPrice = Convert.ToDecimal(reader["ProductPrice"].ToString());
 
                     Product.products.Add(product);//Add the Module to the ModulesList.
                 }
@@ -106,7 +106,7 @@ namespace PROG7311_Task_2.Models
             }
         }
 
-        public static void addProduct(Farmer farmer, int productId, String productName, String productDescription, String productType, DateTime date, Double productPrice)
+        public static void addProduct(Farmer farmer, int productId, String productName, String productDescription, String productType, DateTime date, Decimal productPrice)
         {
             using(SqlConnection con = new SqlConnection(connectionS))
             {
@@ -129,7 +129,7 @@ namespace PROG7311_Task_2.Models
             }
         }
 
-        public void addFarmer(Employee employee, String userID, string password, String email, int farmerID, String name, String surname, DateTime date)
+        public static void addFarmer(Employee employee, String userID, string password, String email, int farmerID, String name, String surname, DateTime date)
         {
             using (SqlConnection con = new SqlConnection(connectionS))
             {
@@ -190,8 +190,8 @@ namespace PROG7311_Task_2.Models
 
             using (SqlConnection con = new SqlConnection(connectionS))
             {
-                string command = "SELECT DISTINCT p.ProductID,p.ProductName,p.ProductDescription,p.ProductType,p.ProductPrice, fp.DateAddedProduct FROM FarmerProduct fp JOIN Farmer f ON f.FarmerID = fp.FarmerID JOIN Product p ON" +
-                    "p.ProductID = fp.ProductID WHERE f.FarmerID = @FarmerID";
+                string command = "SELECT DISTINCT p.ProductID,p.ProductName,p.ProductDescription,p.ProductType,p.ProductPrice, fp.DateAddedProduct FROM FarmerProduct fp JOIN Farmer f ON f.FarmerId = fp.FarmerId JOIN Product p ON p.ProductId = fp.ProductId WHERE f.FarmerId = @FarmerID"
+                    ;
 
                 SqlCommand sqlCmd = new SqlCommand(command, con);//Sql command that will implement the query shown on top with the connection to the database (Vamnu, 2015).
 
@@ -211,8 +211,8 @@ namespace PROG7311_Task_2.Models
                     product.ProductName = reader["ProductName"].ToString();
                     product.ProductDescription = reader["ProductDescription"].ToString();
                     product.ProductType = reader["ProductType"].ToString();
-                    product.ProductPrice = Convert.ToDouble(reader["ProductPrice"].ToString());
-                    product.DateAddedProduct = Convert.ToDateTime(reader["DateAddedProduct"].ToString());
+                    product.ProductPrice = Convert.ToDecimal(reader["ProductPrice"].ToString());
+                    //product.DateAddedProduct = Convert.ToDateTime(reader["DateAddedProduct"].ToString());
 
                     Product.products.Add(product);
                    //Add the Module to the ModulesList.

@@ -15,16 +15,19 @@ namespace PROG7311_Task_2.Models
 
         private String productType;
 
-        private Double productPrice;
+        private Decimal productPrice;
 
-        private DateTime dateAddedProduct;
+        //private DateTime dateAddedProduct;
+
+       // private String farmername;
+
 
         public static List<Product> products = new List<Product>();
         public Product()
         {
         }
 
-        public Product(int productId, string productName, string productDescription, string productType, double productPrice)
+        public Product(int productId, string productName, string productDescription, string productType, decimal productPrice)
         {
             this.productId = productId;
             this.productName = productName;
@@ -41,11 +44,11 @@ namespace PROG7311_Task_2.Models
 
         public string ProductType { get; set; }
 
-        public double ProductPrice { get; set; }
+        public decimal ProductPrice { get; set; }
 
-        public DateTime DateAddedProduct { get; set; }
+        //public DateTime DateAddedProduct { get; set; }
 
-
+        //public string FarmerName { get; set; }
 
 
 

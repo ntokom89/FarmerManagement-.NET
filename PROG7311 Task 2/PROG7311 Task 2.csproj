@@ -126,10 +126,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddProductModelView.cs" />
     <Compile Include="Models\DALClass.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Farmer.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\AddFarmerrModelView.cs" />
     <Compile Include="Models\RegisterModelView.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -180,6 +182,8 @@
     <Content Include="Views\Employee\EmployeeMainPage.cshtml" />
     <Content Include="Views\Farmer\FarmerMainPage.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Farmer\ProductsListFarmer.cshtml" />
+    <Content Include="Views\Employee\ProductListByFarmers.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

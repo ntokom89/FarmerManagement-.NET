@@ -1,31 +1,12 @@
 ﻿@model IEnumerable<PROG7311_Task_2.Models.Product>
 
 @{
-    ViewBag.Title = "EmployeeMainPage";
+    ViewBag.Title = "ProductsListFarmer";
 }
 
-<h2>EmployeeMainPage</h2>
-
-<p>
-    @Html.ActionLink("Add Farmer", "AddFarmer", "Employee")
-</p>
-<p>
-    @Html.ActionLink("List of products by farmers", "ProductListByFarmers", "Employee")
-</p>
-<a href="@Url.Action("ProductListByFarmers", "Employee")"><input type="button" class="btn-top btn-vitae shadow-bottom" value="List of products by farmers" /></a>
-<div class="jumbotron">
-    <h1>Farmer Management</h1>
-    <p class="lead">
-        Welcome to farmer management app.
-        As a employee  you can read the list of products that farmers are selling.
-        You can add Farmer by clicking on a add Farmer button.
-        You also log out of the app.
-    </p>
-
-</div>
-
-
-@*
+<h2>ProductsListFarmer</h2>
+<div class="btn btn-default spanlink">@Html.ActionLink("Add Product", "addProduct", "Farmer", new { })</div>
+<div class="btn btn-default spanlink">@Html.ActionLink("Back to main page", "FarmerMainPage", "Farmer", new { })</div>
 <table class="table">
     <tr>
         <th>
@@ -37,36 +18,44 @@
         <th>
             @Html.DisplayNameFor(model => model.ProductDescription)
         </th>
+        @*
+            <th>
+                @Html.DisplayNameFor(model => model.DateAddedProduct)
+            </th>
+        *@
         <th>
             @Html.DisplayNameFor(model => model.ProductType)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ProductPrice)
         </th>
-
-        <th></th>
     </tr>
-
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <th>
                 @Html.DisplayFor(modelItem => item.ProductId)
-            </td>
-            <td>
+            </th>
+            <th>
                 @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
+            </th>
+            <th>
                 @Html.DisplayFor(modelItem => item.ProductDescription)
-            </td>
-            <td>
+            </th>
+            @*
+                <th>
+                    @Html.DisplayFor(model => model.DateAddedProduct)
+                </th>
+            *@
+            <th>
                 @Html.DisplayFor(modelItem => item.ProductType)
-            </td>
-            <td>
+            </th>
+            <th>
                 @Html.DisplayFor(modelItem => item.ProductPrice)
-            </td>
-
+            </th>
         </tr>
+
+
+
     }
 </table>
-    *@

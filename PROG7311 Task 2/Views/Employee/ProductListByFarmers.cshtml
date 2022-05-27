@@ -1,31 +1,14 @@
 ﻿@model IEnumerable<PROG7311_Task_2.Models.Product>
 
 @{
-    ViewBag.Title = "EmployeeMainPage";
+    ViewBag.Title = "ProductListByFarmers";
 }
 
-<h2>EmployeeMainPage</h2>
-
+<h2>ProductListByFarmers</h2>
 <p>
-    @Html.ActionLink("Add Farmer", "AddFarmer", "Employee")
+    @Html.ActionLink("Add Farmer", "AddFarmer")
 </p>
-<p>
-    @Html.ActionLink("List of products by farmers", "ProductListByFarmers", "Employee")
-</p>
-<a href="@Url.Action("ProductListByFarmers", "Employee")"><input type="button" class="btn-top btn-vitae shadow-bottom" value="List of products by farmers" /></a>
-<div class="jumbotron">
-    <h1>Farmer Management</h1>
-    <p class="lead">
-        Welcome to farmer management app.
-        As a employee  you can read the list of products that farmers are selling.
-        You can add Farmer by clicking on a add Farmer button.
-        You also log out of the app.
-    </p>
 
-</div>
-
-
-@*
 <table class="table">
     <tr>
         <th>
@@ -69,4 +52,3 @@
         </tr>
     }
 </table>
-    *@
