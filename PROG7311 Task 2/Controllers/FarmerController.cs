@@ -52,10 +52,10 @@ namespace PROG7311_Task_2.Controllers
             if (ModelState.IsValid)
             {
                 DateTime date = DateTime.Now;
-                DALClass.addProduct(HomeController.farmer,101, product.ProductName, product.ProductDescription, product.ProductType,
+                DALClass.addProduct(HomeController.farmer,product.ProductName, product.ProductDescription, product.ProductType,
                    date, product.ProductPrice);
 
-                return View("~/Views/Farmer/ProductsListFarmer.cshtml");
+                return View("~/Views/Farmer/FarmerMainPage.cshtml");
             }
             else
             {

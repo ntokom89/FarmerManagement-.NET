@@ -15,7 +15,7 @@ namespace PROG7311_Task_2.Models
 
 
 
-        public static  void RegisterEmployee(string userID, string password, string email, int employeeID, string firstName, string surname )
+        public static  void RegisterEmployee(string userID, string password, string email, string firstName, string surname )
         {
 
             using (SqlConnection con = new SqlConnection(connectionS)){
@@ -26,7 +26,6 @@ namespace PROG7311_Task_2.Models
                 cmd.Parameters.AddWithValue("@UserID", userID);
                 cmd.Parameters.AddWithValue("@UserPassword", password);
                 cmd.Parameters.AddWithValue("@EmailAddress", email);
-                cmd.Parameters.AddWithValue("@EmployeeID", employeeID);
                 cmd.Parameters.AddWithValue("@FirstName", firstName);
                 cmd.Parameters.AddWithValue("@Surname", surname);
 
@@ -106,7 +105,7 @@ namespace PROG7311_Task_2.Models
             }
         }
 
-        public static void addProduct(Farmer farmer, int productId, String productName, String productDescription, String productType, DateTime date, Decimal productPrice)
+        public static void addProduct(Farmer farmer, String productName, String productDescription, String productType, DateTime date, Decimal productPrice)
         {
             using(SqlConnection con = new SqlConnection(connectionS))
             {
@@ -114,13 +113,12 @@ namespace PROG7311_Task_2.Models
                 sqlCmd.CommandType = CommandType.StoredProcedure;//Specify the command type of sqlCmd to stored procedure (Aside, 2014).
 
                 //sqlCmd parameters that will add with the value the attribute and their values into the stored procedure (Aside, 2014).
-                sqlCmd.Parameters.AddWithValue("@ProductID", productId);
                 sqlCmd.Parameters.AddWithValue("@ProductName", productName);
                 sqlCmd.Parameters.AddWithValue("@ProductDescription", productDescription);
                 sqlCmd.Parameters.AddWithValue("@ProductType", productType);
                 sqlCmd.Parameters.AddWithValue("@ProductPrice", productPrice);
                 sqlCmd.Parameters.AddWithValue("@FarmerId", farmer.FarmerID);
-                sqlCmd.Parameters.AddWithValue("@DateAddedProduct", productPrice);
+                sqlCmd.Parameters.AddWithValue("@DateAddedProduct", date);
 
 
                 con.Open();//Open the connection.
@@ -129,7 +127,7 @@ namespace PROG7311_Task_2.Models
             }
         }
 
-        public static void addFarmer(Employee employee, String userID, string password, String email, int farmerID, String name, String surname, DateTime date)
+        public static void addFarmer(Employee employee, String userID, string password, String email, String name, String surname, DateTime date)
         {
             using (SqlConnection con = new SqlConnection(connectionS))
             {
@@ -140,7 +138,6 @@ namespace PROG7311_Task_2.Models
                 cmd.Parameters.AddWithValue("@UserID", userID);
                 cmd.Parameters.AddWithValue("@UserPassword", password);
                 cmd.Parameters.AddWithValue("@EmailAddress", email);
-                cmd.Parameters.AddWithValue("@FarmerID", farmerID);
                 cmd.Parameters.AddWithValue("@EmployeeID", employee.EmployeeID);
                 cmd.Parameters.AddWithValue("@FirstName", name);
                 cmd.Parameters.AddWithValue("@Surname", surname);
@@ -311,5 +308,51 @@ namespace PROG7311_Task_2.Models
             }
             return farmer;
         }
+
+        //A method to get the list of products by the farmer to view for the employee
+
+        public static void productFarmers()
+        {
+
+
+            using (SqlConnection con = new SqlConnection(connectionS))
+            {
+                string command = "SELECT DISTINCT p.ProductID,p.ProductName,p.ProductDescription,p.ProductType,p.ProductPrice, fp.DateAddedProduct, f.FarmerName FROM FarmerProduct fp JOIN Farmer f ON f.FarmerID = fp.FarmerID JOIN Product p ON p.ProductID = fp.ProductID";
+
+                SqlCommand sqlCmd = new SqlCommand(command, con);//Sql command that will implement the query shown on top with the connection to the database (Vamnu, 2015).
+
+
+                //sqlCmd parameters that will first add the attribute and the datatype of it in SQL Server. Then equate the value of that attribute to the value in this program.
+
+                con.Open();//Open the connection
+                SqlDataReader reader = sqlCmd.ExecuteReader();//Execute the reader
+                //While the reader reads the output for each row.
+                while (reader.Read())
+                {
+                   // Product product = new Product();//Create a new Module object
+                    AddProductModelView productView = new AddProductModelView();
+                    Farmer farmer = new Farmer();
+                    Product product = new Product();
+                    //retrieve the values for the attributes of the Module class
+                    product.ProductId = Convert.ToInt32(reader["ProductID"].ToString());
+                    product.ProductName = reader["ProductName"].ToString();
+                    product.ProductDescription = reader["ProductDescription"].ToString();
+                    product.ProductType = reader["ProductType"].ToString();
+                    product.ProductPrice = Convert.ToDecimal(reader["ProductPrice"].ToString());
+                    product.DateAddedProduct = Convert.ToDateTime(reader["DateAddedProduct"].ToString());
+                    product.FarmerName= reader["FarmerName"].ToString();
+
+                    productView.farmer = farmer;
+                    productView.product = product;
+                    Product.products.Add(product);
+                    //AddProductModelView.Add(product);//Add the Module to the ModulesList.
+                    
+                }
+                reader.Close();//close the reader
+                con.Close();//close connection
+            }
+        }
+
+
     }
 }

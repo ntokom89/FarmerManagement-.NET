@@ -101,7 +101,7 @@ namespace PROG7311_Task_2.Controllers
 
             if (ModelState.IsValid)
             {
-                DALClass.RegisterEmployee(vmodelViewRegister.user.userId, vmodelViewRegister.user.password, vmodelViewRegister.user.userEmail, vmodelViewRegister.employee.EmployeeID, vmodelViewRegister.employee.EmployeeName, vmodelViewRegister.employee.EmployeeSurname);
+                DALClass.RegisterEmployee(vmodelViewRegister.user.userId, vmodelViewRegister.user.password, vmodelViewRegister.user.userEmail, vmodelViewRegister.employee.EmployeeName, vmodelViewRegister.employee.EmployeeSurname);
                 bool1 = true;
                 return View("Login");
             }

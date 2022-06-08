@@ -7,7 +7,8 @@
 <h2>FarmerMainPage</h2>
 <p> @Html.ActionLink("Back to Login", "Login", "Home")</p>
 
-
+<div class="btn btn-default spanlink">@Html.ActionLink("Add a product", "AddProduct", "Farmer", new { })</div>
+<div class="btn btn-default spanlink">@Html.ActionLink("List of products", "ProductsListFarmer", "Farmer", new { })</div>
 <a href="@Url.Action("ProductsListFarmer", "Farmer")"><input type="button" class="btn-top btn-vitae shadow-bottom" value="List of products by farmers" /></a>
 <div class="jumbotron">
     <h1>Farmer Management</h1>
@@ -20,56 +21,3 @@
 
 </div>
 
-<div class="btn btn-default spanlink">@Html.ActionLink("List of products", "ProductsListFarmer", "Farmer", new { })</div>
-
-
-<div class="btn btn-default spanlink">@Html.ActionLink("Add a product", "AddProduct", "Farmer", new { })</div>
-@*
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateAddedProduct)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductPrice)
-            </th>
-        </tr>
-    @foreach(var item in Model)
-    {
-    <tr>
-        <th>
-            @Html.DisplayFor(model => model.ProductId)
-        </th>
-        <th>
-            @Html.DisplayFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayFor(model => model.ProductDescription)
-        </th>
-        <th>
-            @Html.DisplayFor(model => model.DateAddedProduct)
-        </th>
-        <th>
-            @Html.DisplayFor(model => model.ProductType)
-        </th>
-        <th>
-            @Html.DisplayFor(model => model.ProductPrice)
-        </th>
-    </tr>
-
-    }
-
-    </table>
-*@

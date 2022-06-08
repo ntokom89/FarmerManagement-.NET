@@ -1,7 +1,9 @@
-﻿using PROG7311_Task_2.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using PROG7311_Task_2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -29,21 +31,43 @@ namespace PROG7311_Task_2.Controllers
             return View();
         }
 
-        public ActionResult ProductListByFarmers()
+        public ActionResult ProductListByFarmers(String orderBy)
         {
-            
-                if ((Product.products != null) && (!Product.products.Any()))
+            ViewBag.CurrentSort = orderBy;
+            ViewBag.ProductTypeSortParm = String.IsNullOrEmpty(orderBy) ? "ProductType_desc" : "";
+            ViewBag.DateSortParm = orderBy == "Date" ? "date_desc" : "Date";
+
+            if ((Product.products != null) && (!Product.products.Any()))
                 {
-                    DALClass.displayProducts();
+                    DALClass.productFarmers();
                 }
                 else
                 {
                     Product.products.Clear();
-                    DALClass.displayProducts();
+                    DALClass.productFarmers();
                 }
 
+            var products = from p in Product.products
+                           select p;
+            switch (orderBy)
+            {
+                case "ProductType_desc":
+                    products = products.OrderByDescending(p => p.ProductType);
+                    break;
+                case "Date":
+                    products = products.OrderBy(p => p.DateAddedProduct);
+                    break;
+                case "date_desc":
+                    products = products.OrderByDescending(p => p.DateAddedProduct);
+                    break;
+                default:
+                    products = products.OrderBy(p => p.ProductId);
+                    break;
+            }
 
-                return View(Product.products);
+            //return View(Product.products);
+
+            return View(products);
         }
 
         [HttpGet]
@@ -59,9 +83,10 @@ namespace PROG7311_Task_2.Controllers
             if (ModelState.IsValid)
             {
                 DateTime date = DateTime.Now;
-                DALClass.addFarmer(HomeController.employee1, modelView.user.userId, modelView.user.password, modelView.user.userEmail, modelView.farmer.FarmerID,
+                DALClass.addFarmer(HomeController.employee1, modelView.user.userId, modelView.user.password, modelView.user.userEmail,
                     modelView.farmer.FarmerName, modelView.farmer.FarmerSurname, date);
-             
+
+                ViewBag.result = "Farmer Inserted Successfully!";
                 return View();
             }
             else

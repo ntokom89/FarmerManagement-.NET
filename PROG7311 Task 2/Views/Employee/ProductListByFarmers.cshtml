@@ -8,6 +8,16 @@
 <p>
     @Html.ActionLink("Add Farmer", "AddFarmer")
 </p>
+<div class="dropdown">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Dropdown link
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <a class="Sort by date" href="#">Action</a>
+        <a class="Sort by product Type" href="#">Another action</a>
+    </div>
+</div>
 
 <table class="table">
     <tr>
@@ -19,9 +29,16 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ProductDescription)
+        </th>3
+        <th>
+            @Html.ActionLink("Product Type", "ProductListByFarmers", new { orderBy = ViewBag.ProductTypeSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProductType)
+            @Html.ActionLink("Date Product Added", "ProductListByFarmers", new { orderBy = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FarmerName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ProductPrice)
@@ -32,23 +49,29 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductPrice)
-            </td>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProductId)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProductName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProductDescription)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProductType)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DateAddedProduct)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.FarmerName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProductPrice)
+    </td>
 
-        </tr>
+</tr>
     }
 </table>

@@ -17,14 +17,15 @@ namespace PROG7311_Task_2.Models
 
         private Decimal productPrice;
 
-        //private DateTime dateAddedProduct;
+        private DateTime dateAddedProduct;
 
-       // private String farmername;
+        private String farmername;
 
 
         public static List<Product> products = new List<Product>();
         public Product()
         {
+
         }
 
         public Product(int productId, string productName, string productDescription, string productType, decimal productPrice)
@@ -46,11 +47,11 @@ namespace PROG7311_Task_2.Models
 
         public decimal ProductPrice { get; set; }
 
-        //public DateTime DateAddedProduct { get; set; }
+        public DateTime DateAddedProduct { get; set; }
 
-        //public string FarmerName { get; set; }
+        public string FarmerName { get; set; }
 
-
+    
 
     }
 }

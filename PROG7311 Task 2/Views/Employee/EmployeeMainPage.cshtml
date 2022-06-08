@@ -9,9 +9,7 @@
 <p>
     @Html.ActionLink("Add Farmer", "AddFarmer", "Employee")
 </p>
-<p>
-    @Html.ActionLink("List of products by farmers", "ProductListByFarmers", "Employee")
-</p>
+
 <a href="@Url.Action("ProductListByFarmers", "Employee")"><input type="button" class="btn-top btn-vitae shadow-bottom" value="List of products by farmers" /></a>
 <div class="jumbotron">
     <h1>Farmer Management</h1>
@@ -24,49 +22,3 @@
 
 </div>
 
-
-@*
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductPrice)
-        </th>
-
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductPrice)
-            </td>
-
-        </tr>
-    }
-</table>
-    *@
