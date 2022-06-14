@@ -218,7 +218,7 @@ namespace PROG7311_Task_2.Models
                 con.Close();//close connection
             }
         }
-
+        //A method to select the user once the user logs in.
         public static User selectUser(User userObj)
         {
             //Using the SqlConnection with the connection string.
@@ -236,16 +236,18 @@ namespace PROG7311_Task_2.Models
                 //While the reader reads the output for each row.
                 while (reader.Read())
                 {
-                    //Retrieve the values for Student Number, first name, surname
-                   // userObj.Use = Convert.ToInt32(reader["StudentNum"].ToString());
+                    //Retrieve the values for User userType and email
                     userObj.userType = reader["UserType"].ToString();
                     userObj.userEmail = reader["EmailAddress"].ToString();
                 }
                 reader.Close();//Close the reader
                 con.Close();//close the connection
             }
+
+            //return the user object
             return userObj;
         }
+        //A method to select the employee if the user is the employee
 
         public static Employee selectEmployee(User userObj)
         {
@@ -253,9 +255,9 @@ namespace PROG7311_Task_2.Models
             //Using the SqlConnection with the connection string.
             using (SqlConnection con = new SqlConnection(connectionS))
             {
-
+                //SQL commmand to execute the query
                 SqlCommand sqlCmd = new SqlCommand("SELECT UserID, EmployeeID, EmployeeName, EmployeeSurname FROM Employee WHERE UserID = @UserID", con);
-                //SqlCommand sqlCmd2 = new SqlCommand("SELECT StudentNum, FirstName, Surname FROM Students WHERE Username = @Username", con);//The sql Command that will execute the query that will get the student details with the connection to the database.
+               
 
                 //sqlCmd parameters that will first add the attribute and the datatype of it in SQL Server. Then equate the value of that attribute to the value in this program.
                 sqlCmd.Parameters.Add("@UserID", SqlDbType.VarChar);
@@ -265,8 +267,7 @@ namespace PROG7311_Task_2.Models
                 //While the reader reads the output for each row.
                 while (reader.Read())
                 {
-                    //Retrieve the values for Student Number, first name, surname
-                    // userObj.Use = Convert.ToInt32(reader["StudentNum"].ToString());
+                    //Retrieve the values for the employee object
                     employee.UserID = reader["UserID"].ToString();
                     employee.EmployeeID = Convert.ToInt32(reader["EmployeeID"].ToString());
                     employee.EmployeeName = reader["EmployeeName"].ToString();
@@ -277,16 +278,16 @@ namespace PROG7311_Task_2.Models
             }
             return employee;
         }
-
+        //A method to select the farmer if the user is a farmer
         public static Farmer selectFarmer(User userObj)
         {
             Farmer farmer = new Farmer();
             //Using the SqlConnection with the connection string.
             using (SqlConnection con = new SqlConnection(connectionS))
             {
-
+                //SQL commmand to execute the query
                 SqlCommand sqlCmd = new SqlCommand("SELECT UserID, FarmerID, FarmerName, FarmerSurname FROM Farmer WHERE UserID = @UserID", con);
-                //SqlCommand sqlCmd2 = new SqlCommand("SELECT StudentNum, FirstName, Surname FROM Students WHERE Username = @Username", con);//The sql Command that will execute the query that will get the student details with the connection to the database.
+
 
                 //sqlCmd parameters that will first add the attribute and the datatype of it in SQL Server. Then equate the value of that attribute to the value in this program.
                 sqlCmd.Parameters.Add("@UserID", SqlDbType.VarChar);
@@ -296,8 +297,7 @@ namespace PROG7311_Task_2.Models
                 //While the reader reads the output for each row.
                 while (reader.Read())
                 {
-                    //Retrieve the values for Student Number, first name, surname
-                    // userObj.Use = Convert.ToInt32(reader["StudentNum"].ToString());
+                    //Retrieve the values for the farmer object 
                     farmer.UserID = reader["UserID"].ToString();
                     farmer.FarmerID = Convert.ToInt32( reader["FarmerID"].ToString());
                     farmer.FarmerName = reader["FarmerName"].ToString();
@@ -306,11 +306,11 @@ namespace PROG7311_Task_2.Models
                 reader.Close();//Close the reader
                 con.Close();//close the connection
             }
+            //return the farmer object
             return farmer;
         }
 
         //A method to get the list of products by the farmer to view for the employee
-
         public static void productFarmers()
         {
 
@@ -329,11 +329,11 @@ namespace PROG7311_Task_2.Models
                 //While the reader reads the output for each row.
                 while (reader.Read())
                 {
-                   // Product product = new Product();//Create a new Module object
+                   // create the objects required to display products by farmer
                     AddProductModelView productView = new AddProductModelView();
                     Farmer farmer = new Farmer();
                     Product product = new Product();
-                    //retrieve the values for the attributes of the Module class
+                    //retrieve the values for the attributes of the product class
                     product.ProductId = Convert.ToInt32(reader["ProductID"].ToString());
                     product.ProductName = reader["ProductName"].ToString();
                     product.ProductDescription = reader["ProductDescription"].ToString();
@@ -341,11 +341,12 @@ namespace PROG7311_Task_2.Models
                     product.ProductPrice = Convert.ToDecimal(reader["ProductPrice"].ToString());
                     product.DateAddedProduct = Convert.ToDateTime(reader["DateAddedProduct"].ToString());
                     product.FarmerName= reader["FarmerName"].ToString();
-
+                    //asign them to two objects
                     productView.farmer = farmer;
                     productView.product = product;
+                    //add product to the product list
                     Product.products.Add(product);
-                    //AddProductModelView.Add(product);//Add the Module to the ModulesList.
+                    
                     
                 }
                 reader.Close();//close the reader
@@ -353,6 +354,40 @@ namespace PROG7311_Task_2.Models
             }
         }
 
+        //A method to check if the userID already exists in the database
+        public static List<User> checkUsers(String userID)
+        {
+            //Create a user and user list objects
+            User user = new User();
+            List<User> users = new List<User>();
+            //Using the SqlConnection with the connection string.
+            using (SqlConnection con = new SqlConnection(connectionS))
+            {
+
+                //SQL commmand to execute the query
+                SqlCommand sqlCmd = new SqlCommand("SELECT UserID FROM Users WHERE UserID = @UserID", con);
+          
+                
+
+                //sqlCmd parameters that will first add the attribute and the datatype of it in SQL Server. Then equate the value of that attribute to the value in this program.
+                sqlCmd.Parameters.Add("@UserID", SqlDbType.VarChar);
+                sqlCmd.Parameters["@UserID"].Value = userID;
+                con.Open();//Open the connection
+                SqlDataReader reader = sqlCmd.ExecuteReader();//Execute the reader.
+                //While the reader reads the output for each row.
+                while (reader.Read())
+                {
+
+                    //Retrieve the values for UserID
+                    user.userId = reader["UserID"].ToString();
+                    users.Add(user);
+                }
+                reader.Close();//Close the reader
+                con.Close();//close the connection
+            }
+            //return users
+            return users;
+        }
 
     }
 }

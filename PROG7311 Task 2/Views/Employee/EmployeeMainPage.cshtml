@@ -6,10 +6,8 @@
 
 <h2>EmployeeMainPage</h2>
 
-<p>
-    @Html.ActionLink("Add Farmer", "AddFarmer", "Employee")
-</p>
 
+<a href="@Url.Action("AddFarmer", "Employee")"><input type="button" class="btn-top btn-vitae shadow-bottom" value="Add Farmer" /></a>
 <a href="@Url.Action("ProductListByFarmers", "Employee")"><input type="button" class="btn-top btn-vitae shadow-bottom" value="List of products by farmers" /></a>
 <div class="jumbotron">
     <h1>Farmer Management</h1>

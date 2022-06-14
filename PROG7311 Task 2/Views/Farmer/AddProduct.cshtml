@@ -5,7 +5,10 @@
 }
 
 <h2>AddProduct</h2>
-
+<div>
+    @Html.ActionLink("Back to Farmer Page", "FarmerMainPage", "Farmer")
+</div>
+<p>@ViewBag.result</p>
 
 @using (Html.BeginForm()) 
 {

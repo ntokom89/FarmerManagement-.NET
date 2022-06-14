@@ -7,9 +7,10 @@
 <h2>FarmerMainPage</h2>
 <p> @Html.ActionLink("Back to Login", "Login", "Home")</p>
 
-<div class="btn btn-default spanlink">@Html.ActionLink("Add a product", "AddProduct", "Farmer", new { })</div>
-<div class="btn btn-default spanlink">@Html.ActionLink("List of products", "ProductsListFarmer", "Farmer", new { })</div>
-<a href="@Url.Action("ProductsListFarmer", "Farmer")"><input type="button" class="btn-top btn-vitae shadow-bottom" value="List of products by farmers" /></a>
+
+<a href="@Url.Action("AddProduct", "Farmer")"><input type="button" class="btn-top btn-vitae shadow-bottom" value="Add Product" /></a>
+<a href="@Url.Action("ProductsListFarmer", "Farmer")"><input type="button" class="btn-top btn-vitae shadow-bottom" value="List of products" /></a>
+
 <div class="jumbotron">
     <h1>Farmer Management</h1>
     <p class="lead">

@@ -5,19 +5,9 @@
 }
 
 <h2>ProductListByFarmers</h2>
-<p>
-    @Html.ActionLink("Add Farmer", "AddFarmer")
-</p>
-<div class="dropdown">
-    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Dropdown link
-    </a>
 
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <a class="Sort by date" href="#">Action</a>
-        <a class="Sort by product Type" href="#">Another action</a>
-    </div>
-</div>
+<div class="btn btn-default spanlink">@Html.ActionLink("Add Farmer", "AddFarmer", "Employee", new { })</div>
+<div class="btn btn-default spanlink">@Html.ActionLink("Back to main page", "EmployeeMainPage", "Employee", new { })</div>
 
 <table class="table">
     <tr>
@@ -29,7 +19,7 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ProductDescription)
-        </th>3
+        </th>
         <th>
             @Html.ActionLink("Product Type", "ProductListByFarmers", new { orderBy = ViewBag.ProductTypeSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>

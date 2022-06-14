@@ -13,6 +13,7 @@ namespace PROG7311_Task_2.Controllers
         // GET: Farmer
         public ActionResult FarmerMainPage()
         {
+            /*
             if ((Product.products != null) && (!Product.products.Any()))
             {
                 DALClass.displayProductByFarmer(HomeController.farmer.FarmerID,HomeController.farmer.FarmerName);
@@ -24,7 +25,8 @@ namespace PROG7311_Task_2.Controllers
             }
 
             return View(Product.products);
-            //return View();
+            */
+            return View();
         }
         [HttpGet]
         public ActionResult AddProduct()
@@ -46,7 +48,6 @@ namespace PROG7311_Task_2.Controllers
             return View(Product.products);
         }
         [HttpPost]
-
         public ActionResult AddProduct(Product product)
        {
             if (ModelState.IsValid)
@@ -54,8 +55,8 @@ namespace PROG7311_Task_2.Controllers
                 DateTime date = DateTime.Now;
                 DALClass.addProduct(HomeController.farmer,product.ProductName, product.ProductDescription, product.ProductType,
                    date, product.ProductPrice);
-
-                return View("~/Views/Farmer/FarmerMainPage.cshtml");
+                ViewBag.result = "Product Inserted Successfully!";
+                return View();
             }
             else
             {

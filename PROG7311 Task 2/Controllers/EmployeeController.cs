@@ -61,7 +61,7 @@ namespace PROG7311_Task_2.Controllers
                     products = products.OrderByDescending(p => p.DateAddedProduct);
                     break;
                 default:
-                    products = products.OrderBy(p => p.ProductId);
+                    products = products.OrderBy(p => p.ProductType);
                     break;
             }
 
@@ -83,18 +83,32 @@ namespace PROG7311_Task_2.Controllers
             if (ModelState.IsValid)
             {
                 DateTime date = DateTime.Now;
-                DALClass.addFarmer(HomeController.employee1, modelView.user.userId, modelView.user.password, modelView.user.userEmail,
-                    modelView.farmer.FarmerName, modelView.farmer.FarmerSurname, date);
+                List<User> users = DALClass.checkUsers(modelView.user.userId);
+                if((users != null) && (!users.Any()))
+                {
+                    DALClass.addFarmer(HomeController.employee1, modelView.user.userId, modelView.user.password, modelView.user.userEmail,
+                                       modelView.farmer.FarmerName, modelView.farmer.FarmerSurname, date);
 
-                ViewBag.result = "Farmer Inserted Successfully!";
-                return View();
+                    ViewBag.result = "Farmer Inserted Successfully!";
+                    return View();
+                }
+                else
+                {
+                    ViewBag.result = "Farmer Insertion unsuccessfull! Change your userID.";
+                    return View();
+
+                }
+                    //DALClass.addFarmer(HomeController.employee1, modelView.user.userId, modelView.user.password, modelView.user.userEmail,
+                    //modelView.farmer.FarmerName, modelView.farmer.FarmerSurname, date);
+
+
             }
             else
             {
                 ModelState.AddModelError("", "Invalid entry to add farmer");
                 return View();
             }
-
+            
             
         }
 

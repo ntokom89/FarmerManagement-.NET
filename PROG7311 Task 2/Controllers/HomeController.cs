@@ -101,9 +101,23 @@ namespace PROG7311_Task_2.Controllers
 
             if (ModelState.IsValid)
             {
-                DALClass.RegisterEmployee(vmodelViewRegister.user.userId, vmodelViewRegister.user.password, vmodelViewRegister.user.userEmail, vmodelViewRegister.employee.EmployeeName, vmodelViewRegister.employee.EmployeeSurname);
-                bool1 = true;
-                return View("Login");
+                List<User> users = DALClass.checkUsers(vmodelViewRegister.user.userId);
+
+
+                if ((users != null) && (!users.Any()))
+                {
+                    DALClass.RegisterEmployee(vmodelViewRegister.user.userId, vmodelViewRegister.user.password, vmodelViewRegister.user.userEmail, vmodelViewRegister.employee.EmployeeName, vmodelViewRegister.employee.EmployeeSurname);
+                    bool1 = true;
+                    return View("Login");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "UserID already exists");
+                    return View();
+                }
+                //    //DALClass.RegisterEmployee(vmodelViewRegister.user.userId, vmodelViewRegister.user.password, vmodelViewRegister.user.userEmail, vmodelViewRegister.employee.EmployeeName, vmodelViewRegister.employee.EmployeeSurname);
+                //bool1 = true;
+                //return View("Login");
             }
             else
             {
