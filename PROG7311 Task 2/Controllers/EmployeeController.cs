@@ -86,11 +86,19 @@ namespace PROG7311_Task_2.Controllers
                 List<User> users = DALClass.checkUsers(modelView.user.userId);
                 if((users != null) && (!users.Any()))
                 {
-                    DALClass.addFarmer(HomeController.employee1, modelView.user.userId, modelView.user.password, modelView.user.userEmail,
-                                       modelView.farmer.FarmerName, modelView.farmer.FarmerSurname, date);
+                    if (modelView.user.userId.Contains("fam"))
+                    {
+                        DALClass.addFarmer(HomeController.employee1, modelView.user.userId, modelView.user.password, modelView.user.userEmail,
+                                           modelView.farmer.FarmerName, modelView.farmer.FarmerSurname, date);
 
-                    ViewBag.result = "Farmer Inserted Successfully!";
-                    return View();
+                        ViewBag.result = "Farmer Inserted Successfully!";
+                        return View();
+                    }
+                    else
+                    {
+                        ViewBag.result = "Invalid userID. please make sure the userID looks like fam1001 for example!";
+                        return View();
+                    }
                 }
                 else
                 {
@@ -111,6 +119,52 @@ namespace PROG7311_Task_2.Controllers
             
             
         }
+
+
+        //A method that returns a register view along with allowing to get input values.
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+        //A method to take the userObj and use it 
+        [HttpPost]
+        public ActionResult Register(RegisterModelView vmodelViewRegister)
+        {
+
+            if (ModelState.IsValid)
+            {
+                List<User> users = DALClass.checkUsers(vmodelViewRegister.user.userId);
+
+
+                if ((users != null) && (!users.Any()))
+                {
+
+                    DALClass.RegisterEmployee(vmodelViewRegister.user.userId, vmodelViewRegister.user.password, vmodelViewRegister.user.userEmail, vmodelViewRegister.employee.EmployeeName, vmodelViewRegister.employee.EmployeeSurname);
+                    return View("Login");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "UserID already exists");
+                    return View();
+                }
+                //    //DALClass.RegisterEmployee(vmodelViewRegister.user.userId, vmodelViewRegister.user.password, vmodelViewRegister.user.userEmail, vmodelViewRegister.employee.EmployeeName, vmodelViewRegister.employee.EmployeeSurname);
+                //bool1 = true;
+                //return View("Login");
+            }
+            else
+            {
+
+                ModelState.AddModelError("", "Invalid entry for Registration");
+                return View();
+            }
+
+
+            // ModelState.AddModelError("", "Invalid entry for Registration");
+            // return View();
+
+        }
+
 
     }
 }

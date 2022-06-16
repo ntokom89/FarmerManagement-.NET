@@ -15,6 +15,9 @@
             @Html.DisplayNameFor(model => model.ProductId)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.ProductImage)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.ProductName)
         </th>
         <th>
@@ -31,6 +34,9 @@
             @Html.DisplayNameFor(model => model.FarmerName)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.ProductAmount)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.ProductPrice)
         </th>
 
@@ -43,6 +49,13 @@
     <td>
         @Html.DisplayFor(modelItem => item.ProductId)
     </td>
+    <th>
+        @{
+            var base64 = Convert.ToBase64String(item.ProductImage);
+            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+        }
+        <img src='@imgSrc' style="max-width:100px; max-height:100px;" />
+    </th>
     <td>
         @Html.DisplayFor(modelItem => item.ProductName)
     </td>
@@ -57,6 +70,9 @@
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.FarmerName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProductAmount)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.ProductPrice)

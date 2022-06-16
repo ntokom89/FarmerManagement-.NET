@@ -17,10 +17,15 @@ namespace PROG7311_Task_2.Models
 
         private Decimal productPrice;
 
+        private int productAmount;
+
         private DateTime dateAddedProduct;
 
         private String farmername;
 
+        private byte[] productImage;
+
+        public HttpPostedFileBase ImageToUpload { get; set; }
 
         public static List<Product> products = new List<Product>();
         public Product()
@@ -45,13 +50,16 @@ namespace PROG7311_Task_2.Models
 
         public string ProductType { get; set; }
 
+
         public decimal ProductPrice { get; set; }
+
+        public int ProductAmount { get; set; }
 
         public DateTime DateAddedProduct { get; set; }
 
         public string FarmerName { get; set; }
 
-    
+        public byte[] ProductImage { get; set; }
 
     }
 }

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Security;
+using System.Text;
 using System.Web;
 using PROG7311_Task_2.Controllers;
 namespace PROG7311_Task_2.Models
@@ -105,7 +106,7 @@ namespace PROG7311_Task_2.Models
             }
         }
 
-        public static void addProduct(Farmer farmer, String productName, String productDescription, String productType, DateTime date, Decimal productPrice)
+        public static void addProduct(Farmer farmer, String productName, String productDescription, String productType, DateTime date, Decimal productPrice, byte[] bytes, int amount)
         {
             using(SqlConnection con = new SqlConnection(connectionS))
             {
@@ -119,7 +120,8 @@ namespace PROG7311_Task_2.Models
                 sqlCmd.Parameters.AddWithValue("@ProductPrice", productPrice);
                 sqlCmd.Parameters.AddWithValue("@FarmerId", farmer.FarmerID);
                 sqlCmd.Parameters.AddWithValue("@DateAddedProduct", date);
-
+                sqlCmd.Parameters.AddWithValue("@ProductImage", bytes);
+                sqlCmd.Parameters.AddWithValue("@ProuductAmount", amount);
 
                 con.Open();//Open the connection.
                 sqlCmd.ExecuteNonQuery();//Execute the stored procedure that is given (Aside, 2014).
@@ -187,7 +189,7 @@ namespace PROG7311_Task_2.Models
 
             using (SqlConnection con = new SqlConnection(connectionS))
             {
-                string command = "SELECT DISTINCT p.ProductID,p.ProductName,p.ProductDescription,p.ProductType,p.ProductPrice, fp.DateAddedProduct FROM FarmerProduct fp JOIN Farmer f ON f.FarmerId = fp.FarmerId JOIN Product p ON p.ProductId = fp.ProductId WHERE f.FarmerId = @FarmerID"
+                string command = "SELECT DISTINCT p.ProductID,p.ProductName,p.ProductDescription,p.ProductType,p.ProductPrice, fp.DateAddedProduct FROM FarmerProduct fp JOIN Farmer f ON f.FarmerId = fp.FarmerId JOIN Product p ON p.ProductId = fp.ProductId  WHERE f.FarmerId = @FarmerID"
                     ;
 
                 SqlCommand sqlCmd = new SqlCommand(command, con);//Sql command that will implement the query shown on top with the connection to the database (Vamnu, 2015).
@@ -209,6 +211,9 @@ namespace PROG7311_Task_2.Models
                     product.ProductDescription = reader["ProductDescription"].ToString();
                     product.ProductType = reader["ProductType"].ToString();
                     product.ProductPrice = Convert.ToDecimal(reader["ProductPrice"].ToString());
+                    //String bytes = reader["ProductImage"].ToString();
+                    product.ProductImage = getImage(product.ProductId);
+                   // product.ProductImage = Convert.ToByte(reader["ProductImage"].ToString());
                     //product.DateAddedProduct = Convert.ToDateTime(reader["DateAddedProduct"].ToString());
 
                     Product.products.Add(product);
@@ -216,6 +221,20 @@ namespace PROG7311_Task_2.Models
                 }
                 reader.Close();//close the reader
                 con.Close();//close connection
+            }
+        }
+
+        public static byte[] getImage(int productID)
+        {
+            using (SqlConnection con = new SqlConnection(connectionS))
+            {
+                using (SqlCommand cm = con.CreateCommand())
+                {
+                    cm.CommandText = "SELECT ProductImage FROM ProductImage WHERE  ProductID = @ProductID";
+                    cm.Parameters.AddWithValue("@ProductID", productID);
+                    con.Open();
+                    return cm.ExecuteScalar() as byte[];
+                }
             }
         }
         //A method to select the user once the user logs in.
@@ -317,7 +336,7 @@ namespace PROG7311_Task_2.Models
 
             using (SqlConnection con = new SqlConnection(connectionS))
             {
-                string command = "SELECT DISTINCT p.ProductID,p.ProductName,p.ProductDescription,p.ProductType,p.ProductPrice, fp.DateAddedProduct, f.FarmerName FROM FarmerProduct fp JOIN Farmer f ON f.FarmerID = fp.FarmerID JOIN Product p ON p.ProductID = fp.ProductID";
+                string command = "SELECT DISTINCT p.ProductID,p.ProductName,p.ProductDescription,p.ProductType,p.ProductPrice, fp.DateAddedProduct, f.FarmerName, p.ProuductAmount FROM FarmerProduct fp JOIN Farmer f ON f.FarmerID = fp.FarmerID JOIN Product p ON p.ProductID = fp.ProductID";
 
                 SqlCommand sqlCmd = new SqlCommand(command, con);//Sql command that will implement the query shown on top with the connection to the database (Vamnu, 2015).
 
@@ -341,6 +360,8 @@ namespace PROG7311_Task_2.Models
                     product.ProductPrice = Convert.ToDecimal(reader["ProductPrice"].ToString());
                     product.DateAddedProduct = Convert.ToDateTime(reader["DateAddedProduct"].ToString());
                     product.FarmerName= reader["FarmerName"].ToString();
+                    product.ProductAmount = Convert.ToInt32(reader["ProuductAmount"].ToString());
+                    product.ProductImage = getImage(product.ProductId);
                     //asign them to two objects
                     productView.farmer = farmer;
                     productView.product = product;

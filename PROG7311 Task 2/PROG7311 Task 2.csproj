@@ -215,7 +215,7 @@
     <Content Include="Views\Employee\AddFarmer.cshtml" />
     <Content Include="Views\Employee\EmployeeMainPage.cshtml" />
     <Content Include="Views\Farmer\FarmerMainPage.cshtml" />
-    <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Employee\Register.cshtml" />
     <Content Include="Views\Farmer\ProductsListFarmer.cshtml" />
     <Content Include="Views\Employee\ProductListByFarmers.cshtml" />
     <Content Include="Views\Employee\View.cshtml" />
