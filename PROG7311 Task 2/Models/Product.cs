@@ -7,6 +7,7 @@ namespace PROG7311_Task_2.Models
 {
     public class Product
     {
+        //product attributes
         private int productId;
 
         private String productName;
@@ -25,8 +26,8 @@ namespace PROG7311_Task_2.Models
 
         private byte[] productImage;
 
-        public HttpPostedFileBase ImageToUpload { get; set; }
-
+       
+        //A list of products
         public static List<Product> products = new List<Product>();
         public Product()
         {
@@ -60,6 +61,9 @@ namespace PROG7311_Task_2.Models
         public string FarmerName { get; set; }
 
         public byte[] ProductImage { get; set; }
+
+        //A File that will be stored in the ProductImage 
+        public HttpPostedFileBase ImageToUpload { get; set; }
 
     }
 }

@@ -11,6 +11,7 @@ namespace PROG7311_Task_2.Controllers
 {
     public class HomeController : Controller
     {
+        //Public static variables
         public static bool bool1 = false;
 
         public static User user1 = new User();
@@ -19,7 +20,7 @@ namespace PROG7311_Task_2.Controllers
 
         public static Employee employee1 = new Employee();
 
-
+        //Get index page
         public ActionResult Index()
         {
             return View();
@@ -28,42 +29,35 @@ namespace PROG7311_Task_2.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            if ((Product.products != null) && (!Product.products.Any()))
-            {
-                DALClass.displayProducts();
-            }
-            else
-            {
-                Product.products.Clear();
-                DALClass.displayProducts();
-            }
-            if (bool1 == true)
-            {
-                //this.AddNotification("Registration Successful", NotificationType.SUCCESS);
-            }
+
             return View();
         }
-        //A method to take the input of the UserObj to validate login.
+        //A method to take the input of the UserObj to validate login (Zeeshan, 2015) (getridbug, 2022).
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login([Bind] User userObj)
         {
+            //If modelState is valid
             if (ModelState.IsValid)
             {
+                //Check password with userID and password
                 bool boolLogin = DALClass.checkPassword(userObj.userId, userObj.password);
                 if (boolLogin == true)
                 {
+                    //select the user
                     user1 = DALClass.selectUser(userObj);
-
+                    //If the user type is farmer then select the farmer using the user object and go to the farmerMainPage
                     if(user1.userType == "Farmer")
                     {
                         
                         farmer=DALClass.selectFarmer(user1);
                         return View("~/Views/Farmer/FarmerMainPage.cshtml");
                     }
-                    else if(user1.userType == "Employee")
+                    //If the user type is employee then select the employee using the user object and go to the employeeMainPage
+                    else if (user1.userType == "Employee")
                     {
                         employee1= DALClass.selectEmployee(user1);
+                        //call thread and start the thread
                         ThreadStart Startthread = new ThreadStart(callThread);
                         Thread thread = new Thread(callThread);
                         thread.Start();
@@ -71,18 +65,21 @@ namespace PROG7311_Task_2.Controllers
                     }
                     else
                     {
+                        //do not change page
                         return View();
                     }
 
                 }
                 else
                 {
+                    //Notify user that the passowrd or userID is invalid
                     ModelState.AddModelError("", "Invalid password or userID entered");
                     return View();
                 }
             }
             else
             {
+                //Notify user to enter password and useraID
                 ModelState.AddModelError("", "Please enter your userID and password");
             }
             return View();

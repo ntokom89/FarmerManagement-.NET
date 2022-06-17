@@ -7,7 +7,7 @@ namespace PROG7311_Task_2.Models
 {
     public class Employee
     {
-
+        //employee attributes
         private int employeeID;
 
         private String userID;
