@@ -22,7 +22,7 @@ namespace PROG7311_Task_2.Controllers
             return View();
         }
         //A method to return a list of products that can be ordered by date or product type (Microsoft, 2022)
-        public ActionResult ProductListByFarmers(String orderBy)
+        public ActionResult ProductListByFarmers(String orderBy, String searchString)
         {
             //A viewBags that are used to get a type of the ordering of a attribute (Microsoft, 2022)
             ViewBag.CurrentSort = orderBy;
@@ -42,6 +42,12 @@ namespace PROG7311_Task_2.Controllers
             //A linq statement to get a list 
             var products = from p in Product.products
                            select p;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.FarmerName.Contains(searchString)
+                                       );
+            }
             //Case statements for the product type and date ordering by (Microsoft, 2022) (Miller, 2021) (Saini, 2019)
             switch (orderBy)
             {

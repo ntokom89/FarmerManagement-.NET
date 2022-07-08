@@ -10,6 +10,13 @@
 <div class="btn btn-default spanlink">@Html.ActionLink("Back to main page", "EmployeeMainPage", "Employee", new { })</div>
 
 <table class="table">
+    @using (Html.BeginForm())
+    {
+        <p>
+            Find by farmer name: @Html.TextBox("SearchString")
+            <input type="submit" value="Search" />
+        </p>
+    }
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ProductId)
@@ -45,39 +52,39 @@
 
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.ProductId)
-    </td>
-    <th>
-        @{
-            var base64 = Convert.ToBase64String(item.ProductImage);
-            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-        }
-        <img src='@imgSrc' style="max-width:100px; max-height:100px;" />
-    </th>
-    <td>
-        @Html.DisplayFor(modelItem => item.ProductName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.ProductDescription)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.ProductType)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.DateAddedProduct)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.FarmerName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.ProductAmount)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.ProductPrice)
-    </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <th>
+                @{
+                    var base64 = Convert.ToBase64String(item.ProductImage);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                }
+                <img src='@imgSrc' style="max-width:100px; max-height:100px;" />
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateAddedProduct)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FarmerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductPrice)
+            </td>
 
-</tr>
+        </tr>
     }
 </table>
